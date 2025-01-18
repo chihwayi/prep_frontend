@@ -1,0 +1,25 @@
+.facility-setup-container {
+    padding: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  mat-card {
+    padding: 24px;
+  }
+  
+  mat-card-actions {
+    padding: 16px 0 0 0;
+  }
+  

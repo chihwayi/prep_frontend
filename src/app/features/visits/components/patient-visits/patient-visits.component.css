@@ -1,0 +1,46 @@
+.container {
+  padding: 20px;
+
+  .header-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 4px;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  .mat-elevation-z8 {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 4px;
+
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+
+  .table-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+}
+
+table {
+  width: 100%;
+}

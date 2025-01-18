@@ -1,1 +1,98 @@
-/* You can add global styles to this file, and also import other style files */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .mat-card {
+    margin-bottom: 20px;
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  /* Patient List specific styles */
+  .filter-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  .mat-mdc-row:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .mat-column-actions {
+    width: 100px;
+    text-align: center;
+  }
+  
+  /* Visit form specific styles */
+  textarea {
+    min-height: 100px;
+  }
+  
+  .mat-mdc-card-content {
+    padding: 20px;
+  }
+  
+  /* Dialog styles */
+  .mat-dialog-actions {
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px;
+  }
+  
+  /* Loading spinner styles */
+  .mat-spinner {
+    display: inline-block;
+    margin-right: 8px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .container {
+      padding: 10px;
+    }
+    
+    .form-container {
+      padding: 10px;
+    }
+    
+    .mat-mdc-table {
+      overflow-x: auto;
+      display: block;
+    }
+  }
+  .success-snackbar {
+    background: #4caf50;
+    color: white;
+    
+    .mat-simple-snackbar-action {
+      color: white;
+    }
+  }
+  
+  .error-snackbar {
+    background: #f44336;
+    color: white;
+    
+    .mat-simple-snackbar-action {
+      color: white;
+    }
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

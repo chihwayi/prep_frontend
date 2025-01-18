@@ -1,0 +1,90 @@
+<app-nav></app-nav>
+
+<div class="role-management-container">
+    <mat-card class="main-card">
+      <mat-card-header>
+        <mat-card-title>Role Management</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="content-grid">
+          <!-- Users List -->
+          <mat-card class="users-card">
+            <mat-card-header>
+              <mat-card-title>Users</mat-card-title>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <mat-selection-list [multiple]="false">
+                <mat-list-option *ngFor="let user of users" 
+                                [selected]="selectedUser?.id === user.id"
+                                (click)="selectUser(user)"
+                                class="user-list-item">
+                  <div class="user-list-content">
+                    <span>{{ user.username }}</span>
+                    <div class="user-actions">
+                      <button mat-icon-button color="warn" 
+                              (click)="deleteUser(user.id); $event.stopPropagation()"
+                              matTooltip="Delete User">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                      <button mat-icon-button color="primary"
+                              (click)="resetPassword(user.id); $event.stopPropagation()"
+                              matTooltip="Reset Password">
+                        <mat-icon>lock_reset</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </mat-list-option>
+              </mat-selection-list>
+            </mat-card-content>
+          </mat-card>
+  
+          <!-- Roles Management -->
+          <mat-card class="roles-card">
+            <mat-card-header>
+              <mat-card-title>Roles</mat-card-title>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <div *ngIf="selectedUser" class="role-form">
+                <h3 class="selected-user-title">
+                  {{ selectedUser.username }}'s Roles
+                </h3>
+  
+                <div *ngIf="availableRoles && availableRoles.length > 0; else noRoles">
+                    <mat-checkbox *ngFor="let role of availableRoles"
+                    [checked]="userHasRole(role.name)"
+                    (change)="toggleRole(role, $event)"
+                    class="role-checkbox">
+          {{ role.name }}
+        </mat-checkbox>
+                </div>
+  
+                <ng-template #noRoles>
+                  <mat-card class="warning-card">
+                    <mat-icon color="warn">warning</mat-icon>
+                    <span>No roles available.</span>
+                  </mat-card>
+                </ng-template>
+  
+                <div class="actions-container">
+                  <button mat-raised-button color="primary" 
+                          (click)="saveRoles()"
+                          class="save-button">
+                    <mat-icon>save</mat-icon>
+                    Save Roles
+                  </button>
+                </div>
+              </div>
+  
+              <div *ngIf="!selectedUser" class="no-selection-message">
+                <mat-icon>person_outline</mat-icon>
+                <p>Please select a user to manage roles</p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>

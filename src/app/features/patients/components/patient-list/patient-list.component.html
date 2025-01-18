@@ -1,0 +1,75 @@
+<app-nav></app-nav>
+<div class="container">
+  <div class="mat-elevation-z8">
+    <div class="table-loading-overlay" *ngIf="loading">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search patients..." #input>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- PrEP Number Column -->
+      <ng-container matColumnDef="prepNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> PrEP Number </th>
+        <td mat-cell *matCellDef="let patient"> {{patient.prepNumber}} </td>
+      </ng-container>
+
+      <!-- Date of Birth Column -->
+      <ng-container matColumnDef="dob">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of Birth </th>
+        <td mat-cell *matCellDef="let patient"> {{patient.dob | date}} </td>
+      </ng-container>
+
+      <!-- Sex Column -->
+      <ng-container matColumnDef="sex">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sex </th>
+        <td mat-cell *matCellDef="let patient"> {{patient.sex}} </td>
+      </ng-container>
+
+      <!-- Population Type Column -->
+      <ng-container matColumnDef="populationType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Population Type </th>
+        <td mat-cell *matCellDef="let patient"> {{patient.populationType}} </td>
+      </ng-container>
+
+      <!-- Last Visit Column -->
+      <ng-container matColumnDef="lastVisit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Injection </th>
+        <td mat-cell *matCellDef="let patient"> {{getLastVisit(patient)}} </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <td mat-cell *matCellDef="let patient" [style.color]="getStatusColor(getCurrentStatus(patient))">
+          {{getCurrentStatus(patient)}}
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let patient">
+          <button mat-icon-button (click)="addVisit(patient)" matTooltip="Add Visit">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button mat-icon-button (click)="viewVisits(patient)" matTooltip="View Visits History">
+            <mat-icon>history</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="7">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of patients"></mat-paginator>
+  </div>
+</div>

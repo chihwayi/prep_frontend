@@ -1,0 +1,79 @@
+<app-nav></app-nav>
+<div class="home-container">
+    <header class="welcome-section">
+      <h1>Welcome to PrEP Management System</h1>
+      <p>Efficiently manage your PrEP program patients and their visits</p>
+    </header>
+  
+    <div class="cards-container">
+      <mat-card *ngFor="let card of cards" [routerLink]="card.route" class="action-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>{{card.icon}}</mat-icon>
+          <mat-card-title>{{card.title}}</mat-card-title>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <p>{{card.description}}</p>
+        </mat-card-content>
+        
+        <mat-card-actions>
+          <button mat-button color="primary">
+            <mat-icon>arrow_forward</mat-icon>
+            OPEN
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  
+    <div class="quick-stats">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Quick Statistics</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="stats-grid" *ngIf="stats; else loading">
+              <div class="main-stats">
+                <div class="stat-item">
+                  <div class="stat-value">{{stats.totalPatients}}</div>
+                  <div class="stat-label">Total Patients</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">{{stats.activePatients}}</div>
+                  <div class="stat-label">Active Patients</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">{{stats.visitsThisMonth}}</div>
+                  <div class="stat-label">Visits This Month</div>
+                </div>
+              </div>
+      
+              <div class="distribution-stats">
+                <div class="distribution-section">
+                  <h3>Current Status Distribution</h3>
+                  <div class="distribution-grid">
+                    <div class="stat-item" *ngFor="let status of getDistributionEntries(stats.statusDistribution)">
+                      <div class="stat-value">{{status.value}}</div>
+                      <div class="stat-label">{{formatLabel(status.key)}}</div>
+                    </div>
+                  </div>
+                </div>
+      
+                <div class="distribution-section">
+                  <h3>Population Type Distribution</h3>
+                  <div class="distribution-grid">
+                    <div class="stat-item" *ngFor="let type of getDistributionEntries(stats.populationTypeDistribution)">
+                      <div class="stat-value">{{type.value}}</div>
+                      <div class="stat-label">{{formatLabel(type.key)}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-template #loading>
+              <div class="loading-container">
+                <mat-spinner diameter="40"></mat-spinner>
+              </div>
+            </ng-template>
+          </mat-card-content>
+        </mat-card>
+      </div>

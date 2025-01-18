@@ -1,0 +1,80 @@
+<app-nav></app-nav>
+<div class="container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Data Migration Tool</mat-card-title>
+        <mat-card-subtitle>Import patient and visit data from Excel</mat-card-subtitle>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <div class="file-upload-container">
+          <input
+            type="file"
+            #fileInput
+            (change)="onFileSelected($event)"
+            accept=".xlsx,.xls"
+            [style.display]="'none'"
+          >
+          
+          <div class="file-selection-area">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="fileInput.click()"
+              [disabled]="uploading"
+            >
+              Select Excel File
+            </button>
+            
+            <span class="selected-file" *ngIf="selectedFile">
+              {{selectedFile.name}}
+              <button mat-icon-button color="warn" (click)="clearFile()" [disabled]="uploading">
+                <mat-icon>close</mat-icon>
+              </button>
+            </span>
+          </div>
+  
+          <div class="upload-progress" *ngIf="uploading">
+            <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+            <span class="progress-label">{{uploadProgress}}%</span>
+          </div>
+  
+          <div class="error-message" *ngIf="errorMessage">
+            <mat-error>{{errorMessage}}</mat-error>
+          </div>
+  
+          <div class="migration-result" *ngIf="migrationResult">
+            <h3>Migration Results</h3>
+            <div class="result-details">
+              <div class="success-message" *ngIf="migrationResult.successful">
+                <mat-icon>check_circle</mat-icon>
+                Migration completed successfully
+              </div>
+              <div class="stats" *ngIf="migrationResult.successful">
+                <p>Patients Processed: {{migrationResult.patientsProcessed}}</p>
+                <p>Visits Processed: {{migrationResult.visitsProcessed}}</p>
+              </div>
+              <div class="error-list" *ngIf="migrationResult.errors?.length">
+                <h4>Errors encountered:</h4>
+                <ul>
+                  <li *ngFor="let error of migrationResult.errors">{{error}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+  
+          <div class="actions">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="uploadFile()" 
+              [disabled]="!selectedFile || uploading"
+            >
+              <mat-icon>upload</mat-icon>
+              Upload and Process
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>

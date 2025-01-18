@@ -1,0 +1,64 @@
+<div class="facility-setup-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Facility Setup</mat-card-title>
+        <mat-card-subtitle>Please select your facility location</mat-card-subtitle>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <form [formGroup]="facilityForm" (ngSubmit)="saveFacility()">
+          <div class="form-container">
+            <!-- Province Selection -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Province</mat-label>
+              <mat-select formControlName="province">
+                <mat-option *ngFor="let province of provinces" [value]="province">
+                  {{province}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="facilityForm.get('province')?.hasError('required')">
+                Province is required
+              </mat-error>
+            </mat-form-field>
+  
+            <!-- District Selection -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>District</mat-label>
+              <mat-select formControlName="district">
+                <mat-option *ngFor="let district of districts" [value]="district">
+                  {{district}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="facilityForm.get('district')?.hasError('required')">
+                District is required
+              </mat-error>
+            </mat-form-field>
+  
+            <!-- Facility Selection -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Facility</mat-label>
+              <mat-select formControlName="facility">
+                <mat-option *ngFor="let facility of facilities" [value]="facility.siteCode">
+                  {{facility.site}} ({{facility.siteCode}})
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="facilityForm.get('facility')?.hasError('required')">
+                Facility is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </form>
+      </mat-card-content>
+  
+      <mat-card-actions align="end">
+        <button mat-button color="primary" 
+                (click)="saveFacility()" 
+                [disabled]="!facilityForm.valid || loading">
+          <mat-icon>save</mat-icon>
+          Save Configuration
+        </button>
+      </mat-card-actions>
+  
+      <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    </mat-card>
+  </div>

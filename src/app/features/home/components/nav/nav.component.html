@@ -1,0 +1,66 @@
+<mat-toolbar color="primary">
+  <!-- Left side -->
+  <div class="toolbar-section left">
+    <span>{{title}}</span>
+  </div>
+
+  <!-- Center section -->
+  <div class="toolbar-section center">
+    <div class="facility-info" *ngIf="currentFacility">
+      <mat-icon>local_hospital</mat-icon>
+      <span class="facility-name">{{ currentFacility.site }}</span>
+      <span class="facility-code">({{ currentFacility.siteCode }})</span>
+    </div>
+  </div>
+
+  <!-- Right section -->
+  <div class="toolbar-section right">
+    <button mat-button routerLink="/home">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </button>
+    
+    <button mat-button routerLink="/patients">
+      <mat-icon>people</mat-icon>
+      <span>Patients</span>
+    </button>
+    
+    <button mat-button routerLink="/patients/new">
+      <mat-icon>person_add</mat-icon>
+      <span>New Patient</span>
+    </button>
+
+    <button mat-button routerLink="/migrate" *ngIf="isAdmin()">
+      <mat-icon>file_upload</mat-icon>
+      <span>Data Import</span>
+    </button>
+
+    <button mat-button routerLink="/settings" *ngIf="isAdmin()">
+      <mat-icon>settings</mat-icon>
+      <span>Settings</span>
+    </button>
+
+    <button mat-button [matMenuTriggerFor]="userMenu" class="user-profile-button">
+      <mat-icon>account_circle</mat-icon>
+      <span class="username-text">{{ currentUser?.username || 'Guest' }}</span>
+    </button>
+  </div>
+
+  <mat-menu #userMenu="matMenu">
+    <div class="user-menu-header" mat-menu-item disabled>
+      <mat-icon>person</mat-icon>
+      <span>{{ currentUser?.username || 'Guest' }}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <button mat-menu-item disabled>
+      <mat-icon>verified_user</mat-icon>
+      <span>Roles: {{ getUserRoles() }}</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<router-outlet></router-outlet>
