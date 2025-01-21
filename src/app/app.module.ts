@@ -44,6 +44,7 @@ import { RoleManagementComponent } from './features/prep/components/role-managem
 import { ResetPasswordDialogComponent } from './features/dialogs/reset-password-dialog/reset-password-dialog.component';
 import { ConfirmDialogComponent } from './features/dialogs/confirm-dialog/confirm-dialog.component';
 import { FacilitySetupComponent } from './features/prep/components/facility-setup/facility-setup.component';
+import { VisitConfirmDialogComponent } from './features/dialogs/visit-confirm-dialog/visit-confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { FacilitySetupComponent } from './features/prep/components/facility-setu
     RoleManagementComponent,
     ResetPasswordDialogComponent,
     ConfirmDialogComponent,
-    FacilitySetupComponent
+    FacilitySetupComponent,
+    VisitConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

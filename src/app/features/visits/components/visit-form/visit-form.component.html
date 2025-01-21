@@ -30,7 +30,11 @@
         <!-- Type of Injection -->
         <mat-form-field appearance="outline">
           <mat-label>Type of Injection</mat-label>
-          <input matInput formControlName="typeOfInjection" placeholder="Enter Type of Injection">
+          <mat-select formControlName="typeOfInjection">
+            <mat-option *ngFor="let type of injectionTypes" [value]="type">
+              {{ type }}
+            </mat-option>
+          </mat-select>
           <mat-error *ngIf="visitForm.get('typeOfInjection')?.hasError('required')">
             Type of Injection is required
           </mat-error>
