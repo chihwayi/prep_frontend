@@ -61,10 +61,7 @@ export class FileUploadComponent {
             this.migrationResult = event.body;
             if (this.migrationResult?.successful) {
               this.snackBar.open(
-                'Data migration completed successfully! \n'
-                +'Total Patients migrated = '+this.migrationResult.patientsProcessed+'\n'
-                +'Total Visits = '+this.migrationResult.visitsProcessed+'\n',
-                'Close',
+                'Data migration completed successfully','Close',
                 {
                   duration: 5000,
                   panelClass: ['success-snackbar'],
@@ -76,8 +73,7 @@ export class FileUploadComponent {
         error: (error: { error: { message: string } }) => {
           this.errorMessage = error.error?.message || 'Failed to upload file';
           this.snackBar.open(
-            'Error during migration: ' + this.errorMessage,
-            'Close',
+            'Error during migration', 'Close',
             {
               duration: 5000,
               panelClass: ['error-snackbar'],
