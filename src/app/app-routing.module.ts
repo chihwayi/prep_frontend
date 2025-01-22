@@ -11,6 +11,7 @@ import { RegisterComponent } from './features/prep/components/register/register.
 import { RoleManagementComponent } from './features/prep/components/role-management/role-management.component';
 import { AuthGuard } from './guard/auth.guard';
 import { FacilitySetupComponent } from './features/prep/components/facility-setup/facility-setup.component';
+import { ReportsDashboardComponent } from './features/reports/reports-dashboard/reports-dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -38,6 +39,13 @@ const routes: Routes = [
     children: [
       { path: 'new', component: VisitFormComponent },
       { path: ':prepNumber', component: VisitFormComponent },
+    ],
+  },
+  {
+    path: 'reports',
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'dashboard', component: ReportsDashboardComponent }
     ],
   },
   {

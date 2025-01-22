@@ -1,0 +1,126 @@
+<app-nav></app-nav>
+<mat-tab-group>
+    <mat-tab label="Demographics">
+      <mat-card>
+        <mat-card-content>
+          <table mat-table [dataSource]="demographicsData">
+            <ng-container matColumnDef="sex">
+              <th mat-header-cell *matHeaderCellDef> Sex </th>
+              <td mat-cell *matCellDef="let element"> {{element.sex}} </td>
+            </ng-container>
+            <ng-container matColumnDef="populationType">
+              <th mat-header-cell *matHeaderCellDef> Population Type </th>
+              <td mat-cell *matCellDef="let element"> {{element.populationType}} </td>
+            </ng-container>
+            <ng-container matColumnDef="ageGroup">
+              <th mat-header-cell *matHeaderCellDef> Age Group </th>
+              <td mat-cell *matCellDef="let element"> {{element.ageGroup}} </td>
+            </ng-container>
+            <ng-container matColumnDef="totalPatients">
+              <th mat-header-cell *matHeaderCellDef> Total Patients </th>
+              <td mat-cell *matCellDef="let element"> {{element.totalPatients}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="demographicsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: demographicsColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="Retention">
+      <mat-card>
+        <mat-card-content>
+          <table mat-table [dataSource]="retentionData">
+            <ng-container matColumnDef="typeOfInjection">
+              <th mat-header-cell *matHeaderCellDef> Injection Type </th>
+              <td mat-cell *matCellDef="let element"> {{element.typeOfInjection}} </td>
+            </ng-container>
+            <ng-container matColumnDef="currentStatus">
+              <th mat-header-cell *matHeaderCellDef> Status </th>
+              <td mat-cell *matCellDef="let element"> {{element.currentStatus}} </td>
+            </ng-container>
+            <ng-container matColumnDef="discontinuationReason">
+              <th mat-header-cell *matHeaderCellDef> Discontinuation Reason </th>
+              <td mat-cell *matCellDef="let element"> {{element.discontinuationReason}} </td>
+            </ng-container>
+            <ng-container matColumnDef="totalCases">
+              <th mat-header-cell *matHeaderCellDef> Total Cases </th>
+              <td mat-cell *matCellDef="let element"> {{element.totalCases}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="retentionColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: retentionColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="Injection Trends">
+      <mat-card>
+        <mat-card-content>
+          <form [formGroup]="dateForm">
+            <mat-form-field>
+              <mat-label>Start Date</mat-label>
+              <input matInput [matDatepicker]="startPicker" formControlName="startDate">
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>End Date</mat-label>
+              <input matInput [matDatepicker]="endPicker" formControlName="endDate">
+              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+          </form>
+
+          <table mat-table [dataSource]="injectionTrendsData">
+            <ng-container matColumnDef="month">
+              <th mat-header-cell *matHeaderCellDef> Month </th>
+              <td mat-cell *matCellDef="let element"> {{element.month}} </td>
+            </ng-container>
+            <ng-container matColumnDef="totalInjections">
+              <th mat-header-cell *matHeaderCellDef> Total Injections </th>
+              <td mat-cell *matCellDef="let element"> {{element.totalInjections}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="injectionTrendsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: injectionTrendsColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="Missing Follow-ups">
+      <mat-card>
+        <mat-card-content>
+          <table mat-table [dataSource]="missingFollowUpsData">
+            <ng-container matColumnDef="patientId">
+              <th mat-header-cell *matHeaderCellDef> Patient ID </th>
+              <td mat-cell *matCellDef="let element"> {{element.patientId}} </td>
+            </ng-container>
+            <ng-container matColumnDef="sex">
+              <th mat-header-cell *matHeaderCellDef> Sex </th>
+              <td mat-cell *matCellDef="let element"> {{element.sex}} </td>
+            </ng-container>
+            <ng-container matColumnDef="populationType">
+              <th mat-header-cell *matHeaderCellDef> Population Type </th>
+              <td mat-cell *matCellDef="let element"> {{element.populationType}} </td>
+            </ng-container>
+            <ng-container matColumnDef="lastInjectionDate">
+              <th mat-header-cell *matHeaderCellDef> Last Injection Date </th>
+              <td mat-cell *matCellDef="let element"> {{element.lastInjectionDate | date}} </td>
+            </ng-container>
+            <ng-container matColumnDef="daysSinceLastInjection">
+              <th mat-header-cell *matHeaderCellDef> Days Since Last Injection </th>
+              <td mat-cell *matCellDef="let element"> {{element.daysSinceLastInjection}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="missingFollowUpsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: missingFollowUpsColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>

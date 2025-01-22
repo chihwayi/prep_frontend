@@ -25,6 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTabsModule } from '@angular/material/tabs';
 import { AppComponent } from './app.component';
 import { PatientListComponent } from './features/patients/components/patient-list/patient-list.component';
 import { PatientFormComponent } from './features/patients/components/patient-form/patient-form.component';
@@ -45,6 +46,8 @@ import { ResetPasswordDialogComponent } from './features/dialogs/reset-password-
 import { ConfirmDialogComponent } from './features/dialogs/confirm-dialog/confirm-dialog.component';
 import { FacilitySetupComponent } from './features/prep/components/facility-setup/facility-setup.component';
 import { VisitConfirmDialogComponent } from './features/dialogs/visit-confirm-dialog/visit-confirm-dialog.component';
+import { ReportsDashboardComponent } from './features/reports/reports-dashboard/reports-dashboard.component';
+import { DemographicsReportComponent } from './features/reports/demographics-report/demographics-report.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +68,9 @@ import { VisitConfirmDialogComponent } from './features/dialogs/visit-confirm-di
     ResetPasswordDialogComponent,
     ConfirmDialogComponent,
     FacilitySetupComponent,
-    VisitConfirmDialogComponent
+    VisitConfirmDialogComponent,
+    ReportsDashboardComponent,
+    DemographicsReportComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +98,8 @@ import { VisitConfirmDialogComponent } from './features/dialogs/visit-confirm-di
     FormsModule,
     MatListModule,
     MatCheckboxModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTabsModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),
