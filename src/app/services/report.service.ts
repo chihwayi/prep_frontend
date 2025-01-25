@@ -5,12 +5,13 @@ import { MissingFollowUpDTO } from '../models/missing-follow-up-dto.model';
 import { InjectionTrendDTO } from '../models/injection-trend-dto.model';
 import { RetentionDTO } from '../models/retention-dto.model';
 import { DemographicDTO } from '../models/demographic-dto.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
-  private readonly apiUrl = 'http://127.0.0.1:8080/api/reports';
+  private readonly apiUrl = `${environment.apiBaseUrl}/reports`;
 
   constructor(private http: HttpClient) {}
 

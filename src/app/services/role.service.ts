@@ -4,12 +4,13 @@ import { Observable, throwError  } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { User } from '../models/user.model'; 
 import { Role } from '../models/role.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleService {
-  private apiUrl = 'http://localhost:8080/api/admin'; 
+  private apiUrl = `${environment.apiBaseUrl}/admin`; 
 
   constructor(private http: HttpClient) {}
 

@@ -6,13 +6,14 @@ import { Visit } from '../models/visit.model';
 import { MigrationResult } from '../models/migration-result.model';
 import { PaginatedResponse } from '../models/paginated-response.model';
 import { DashboardStats } from '../models/dashboard-stats.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private readonly baseUrl = 'http://localhost:8080/api';
+  private readonly baseUrl = `${environment.apiBaseUrl}`;
 
   constructor(private http: HttpClient) {}
 

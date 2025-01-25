@@ -2,12 +2,13 @@ import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MigrationResult } from '../models/migration-result.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MigrationService {
-  private readonly API_URL = 'http://localhost:8080/api/migrate';
+  private readonly API_URL = `${environment.apiBaseUrl}/migrate`;
 
   constructor(private http: HttpClient) {}
 
