@@ -6,11 +6,19 @@
     </mat-card-header>
 
     <mat-card-content>
-      <form [formGroup]="visitForm" (ngSubmit)="onSubmit()" class="form-container">
+      <form
+        [formGroup]="visitForm"
+        (ngSubmit)="onSubmit()"
+        class="form-container"
+      >
         <!-- PrEP Number -->
         <mat-form-field appearance="outline">
           <mat-label>PrEP Number</mat-label>
-          <input matInput formControlName="prepNumber" placeholder="Enter PrEP Number">
+          <input
+            matInput
+            formControlName="prepNumber"
+            placeholder="Enter PrEP Number"
+          />
           <mat-error *ngIf="visitForm.get('prepNumber')?.hasError('required')">
             PrEP Number is required
           </mat-error>
@@ -19,10 +27,19 @@
         <!-- Injection Date -->
         <mat-form-field appearance="outline">
           <mat-label>Injection Date</mat-label>
-          <input matInput [matDatepicker]="injectionPicker" formControlName="injectionDate">
-          <mat-datepicker-toggle matSuffix [for]="injectionPicker"></mat-datepicker-toggle>
+          <input
+            matInput
+            [matDatepicker]="injectionPicker"
+            formControlName="injectionDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="injectionPicker"
+          ></mat-datepicker-toggle>
           <mat-datepicker #injectionPicker></mat-datepicker>
-          <mat-error *ngIf="visitForm.get('injectionDate')?.hasError('required')">
+          <mat-error
+            *ngIf="visitForm.get('injectionDate')?.hasError('required')"
+          >
             Injection Date is required
           </mat-error>
         </mat-form-field>
@@ -35,7 +52,9 @@
               {{ type }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="visitForm.get('typeOfInjection')?.hasError('required')">
+          <mat-error
+            *ngIf="visitForm.get('typeOfInjection')?.hasError('required')"
+          >
             Type of Injection is required
           </mat-error>
         </mat-form-field>
@@ -44,44 +63,63 @@
         <mat-form-field appearance="outline">
           <mat-label>Current Status</mat-label>
           <mat-select formControlName="currentStatus">
-            <mat-option *ngFor="let status of currentStatusOptions" [value]="status">
+            <mat-option
+              *ngFor="let status of currentStatusOptions"
+              [value]="status"
+            >
               {{ status }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="visitForm.get('currentStatus')?.hasError('required')">
+          <mat-error
+            *ngIf="visitForm.get('currentStatus')?.hasError('required')"
+          >
             Current Status is required
           </mat-error>
         </mat-form-field>
 
-        <!-- Discontinuation Reason -->
-        <mat-form-field appearance="outline">
-          <mat-label>Discontinuation Reason</mat-label>
-          <textarea matInput formControlName="discontinuationReason" rows="3"></textarea>
+        <!-- Reason -->
+        <mat-form-field
+          appearance="outline"
+          *ngIf="
+            visitForm.get('currentStatus')?.value === 'D' ||
+            visitForm.get('currentStatus')?.value === 'SWD' ||
+            visitForm.get('currentStatus')?.value === 'AED'
+          "
+        >
+          <mat-label>Reason</mat-label>
+          <textarea
+            matInput
+            formControlName="discontinuationReason"
+            rows="3"
+          ></textarea>
         </mat-form-field>
 
-        <!-- Adverse Event Severity (Optional) -->
-        <mat-form-field appearance="outline">
-          <mat-label>Adverse Event Severity (Optional)</mat-label>
+        <!-- Adverse Event Severity -->
+        <mat-form-field
+          appearance="outline"
+          *ngIf="
+            visitForm.get('currentStatus')?.value === 'AE' ||
+            visitForm.get('currentStatus')?.value === 'AED'
+          "
+        >
+          <mat-label>Adverse Event Severity</mat-label>
           <mat-select formControlName="adverseEventSeverity">
-            <mat-option [value]="null">None</mat-option>
-            <mat-option *ngFor="let severity of adverseEventSeverityOptions" [value]="severity">
+            <mat-option
+              *ngFor="let severity of adverseEventSeverityOptions"
+              [value]="severity"
+            >
               {{ severity }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <!-- PrEP Experience Status -->
-        <mat-form-field appearance="outline">
-          <mat-label>PrEP Experience Status</mat-label>
-          <mat-select formControlName="prepExperienceStatus">
-            <mat-option *ngFor="let status of prepExperienceStatusOptions" [value]="status">
-              {{ status }}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <!-- Submit Button -->
         <div class="button-container">
-          <button mat-raised-button color="primary" type="submit" [disabled]="visitForm.invalid || loading">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="visitForm.invalid || loading"
+          >
             <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
             <span *ngIf="!loading">Record Visit</span>
           </button>

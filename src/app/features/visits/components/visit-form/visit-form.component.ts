@@ -112,6 +112,10 @@ export class VisitFormComponent implements OnInit {
         }
       });
     }
+
+    this.visitForm.get('currentStatus')?.valueChanges.subscribe(status => {
+      this.updateFieldVisibility(status);
+    });
   }
 
   private updateInjectionTypes(currentDate: Date): void {
@@ -177,55 +181,6 @@ export class VisitFormComponent implements OnInit {
     return match ? parseInt(match[1]) : 0;
   }
 
-/*
-  private setAvailableInjectionTypes(previousVisits: Visit[]): void {
-    const completedInjections = previousVisits
-      .map(visit => visit.typeOfInjection)
-      .sort((a, b) => this.compareInjectionTypes(a, b));
-
-    if (completedInjections.length === 0) {
-      // First visit - only Initiation 1 is available
-      this.injectionTypes = [InjectionType.INITIATION_1];
-    } else if (completedInjections.length === 1 && 
-               completedInjections[0] === InjectionType.INITIATION_1) {
-      // After Initiation 1 - only Initiation 2 is available
-      this.injectionTypes = [InjectionType.INITIATION_2];
-    } else {
-      // After both initiations - next re-injection number
-      const lastReInjectionNum = this.getLastReInjectionNumber(completedInjections);
-      this.injectionTypes = [`Reinjection ${lastReInjectionNum + 1}`];
-    }
-  }
-
-  private getLastReInjectionNumber(completedInjections: string[]): number {
-    const reInjections = completedInjections.filter(type => type.startsWith('Reinjection'));
-    if (reInjections.length === 0) return 0;
-
-    return Math.max(...reInjections.map(type => {
-      const match = type.match(/Reinjection (\d+)/);
-      return match ? parseInt(match[1]) : 0;
-    }));
-  }
-
-  private compareInjectionTypes(a: string, b: string): number {
-    const order = new Map([
-      [InjectionType.INITIATION_1, 1],
-      [InjectionType.INITIATION_2, 2]
-    ]);
-
-    const aOrder = order.get(a as InjectionType) ?? this.getReInjectionNumber(a);
-    const bOrder = order.get(b as InjectionType) ?? this.getReInjectionNumber(b);
-
-    return aOrder - bOrder;
-  }
-  private getReInjectionNumber(type: string): number {
-    if (type.startsWith('Reinjection')) {
-      const match = type.match(/Reinjection (\d+)/);
-      return match ? parseInt(match[1]) + 2 : 999;
-    }
-    return 999;
-  }
-*/
   onSubmit(): void {
     if (this.visitForm.valid && this.patientId) {
       const visitDate = new Date(this.visitForm.value.injectionDate);
@@ -278,5 +233,24 @@ export class VisitFormComponent implements OnInit {
       });
     }
   }
+}
+
+// Update Field Visibility
+private updateFieldVisibility(status: string): void {
+  if (status === 'D' || status === 'SWD') {
+    this.visitForm.get('discontinuationReason')?.setValidators([Validators.required]);
+    this.visitForm.get('adverseEventSeverity')?.clearValidators();
+  } else if (status === 'AE') {
+    this.visitForm.get('adverseEventSeverity')?.setValidators([Validators.required]);
+    this.visitForm.get('discontinuationReason')?.clearValidators();
+  } else if (status === 'AED') {
+    this.visitForm.get('discontinuationReason')?.setValidators([Validators.required]);
+    this.visitForm.get('adverseEventSeverity')?.setValidators([Validators.required]);
+  } else {
+    this.visitForm.get('discontinuationReason')?.clearValidators();
+    this.visitForm.get('adverseEventSeverity')?.clearValidators();
+  }
+  this.visitForm.get('discontinuationReason')?.updateValueAndValidity();
+  this.visitForm.get('adverseEventSeverity')?.updateValueAndValidity();
 }
 }
