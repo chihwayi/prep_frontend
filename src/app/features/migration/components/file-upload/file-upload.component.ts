@@ -55,30 +55,30 @@ export class FileUploadComponent {
       .subscribe({
         next: (event: HttpEvent<any>) => {
           if (event.type === HttpEventType.UploadProgress) {
-            this.uploadProgress =
-              this.migrationService.getUploadProgress(event);
+            this.uploadProgress = this.migrationService.getUploadProgress(event);
           } else if (event instanceof HttpResponse) {
             this.migrationResult = event.body;
             if (this.migrationResult?.successful) {
-              this.snackBar.open(
-                'Data migration completed successfully','Close',
-                {
-                  duration: 5000,
-                  panelClass: ['success-snackbar'],
-                }
-              );
+              this.snackBar.open('Data migration completed successfully', 'Close', {
+                duration: 5000,
+                panelClass: ['success-snackbar'],
+              });
+            } else if (this.migrationResult) {
+              // Handle unsuccessful migration with a message
+              this.errorMessage = this.migrationResult.message || 'Migration failed';
+              this.snackBar.open(this.errorMessage || 'Unknown error', 'Close', {
+                duration: 5000,
+                panelClass: ['error-snackbar'],
+              });
             }
           }
         },
-        error: (error: { error: { message: string } }) => {
+        error: (error) => {
           this.errorMessage = error.error?.message || 'Failed to upload file';
-          this.snackBar.open(
-            'Error during migration', 'Close',
-            {
-              duration: 5000,
-              panelClass: ['error-snackbar'],
-            }
-          );
+          this.snackBar.open(this.errorMessage || 'Unknown error', 'Close', {
+            duration: 5000,
+            panelClass: ['error-snackbar'],
+          });
         },
       });
   }

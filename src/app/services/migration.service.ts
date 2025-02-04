@@ -1,8 +1,9 @@
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { MigrationResult } from '../models/migration-result.model';
 import { environment } from '../../environments/environment';
+//import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,20 @@ export class MigrationService {
     return this.http.post<MigrationResult>(`${this.API_URL}/import-excel`, formData, {
       reportProgress: true,
       observe: 'events'
-    });
+    }).pipe(
+      catchError(error => {
+        // If the error response contains a MigrationResult object
+        if (error.error instanceof Object && 'message' in error.error) {
+          return throwError(() => error);
+        }
+        // If it's a different type of error
+        return throwError(() => ({
+          error: {
+            message: 'Failed to upload file: Network or server error'
+          }
+        }));
+      })
+    );
   }
 
   getUploadProgress(event: HttpEvent<any>): number {

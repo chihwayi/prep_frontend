@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import { Config } from '../models/config.model';
 import { Facility } from '../models/facility.model';
 import { environment } from '../../environments/environment';
+//import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
