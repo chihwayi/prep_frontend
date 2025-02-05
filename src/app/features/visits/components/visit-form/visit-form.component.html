@@ -44,6 +44,24 @@
           </mat-error>
         </mat-form-field>
 
+        <!-- Prep Experience Status -->
+        <mat-form-field appearance="outline">
+          <mat-label>PrEP Experience Status</mat-label>
+          <mat-select formControlName="prepExperienceStatus">
+            <mat-option
+              *ngFor="let status of prepExperienceStatusOptions"
+              [value]="status"
+            >
+              {{ status }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="visitForm.get('prepExperienceStatus')?.hasError('required')"
+          >
+            PrEP Experience Status is required
+          </mat-error>
+        </mat-form-field>
+
         <!-- Type of Injection -->
         <mat-form-field appearance="outline">
           <mat-label>Type of Injection</mat-label>

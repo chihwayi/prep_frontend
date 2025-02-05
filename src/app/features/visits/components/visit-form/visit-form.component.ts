@@ -29,6 +29,8 @@ export class VisitFormComponent implements OnInit {
   injectionTypes: string[] = [];
   lastVisitDate: Date | null = null;
   lastInjectionType: string | null = null;
+  isFirstVisit: boolean = true;
+  isSequenceReset: boolean = false;
 
   currentStatusOptions = Object.values(CurrentStatus);
   adverseEventSeverityOptions = Object.values(AdverseEventSeverity);
@@ -49,7 +51,7 @@ export class VisitFormComponent implements OnInit {
       currentStatus: ['', Validators.required],
       discontinuationReason: [''],
       adverseEventSeverity: [null],
-      prepExperienceStatus: [null]
+      prepExperienceStatus: ['',Validators.required]
     });
 
     this.visitForm.get('injectionDate')?.valueChanges.subscribe(date => {
@@ -87,6 +89,7 @@ export class VisitFormComponent implements OnInit {
       this.apiService.getVisitsByPrepNumber(this.prepNumber).subscribe({
         next: (visits) => {
           if (visits.length > 0) {
+            this.isFirstVisit = false;
             // Sort visits by date
             const sortedVisits = visits.sort((a, b) => 
               new Date(b.injectionDate).getTime() - new Date(a.injectionDate).getTime()
@@ -101,8 +104,9 @@ export class VisitFormComponent implements OnInit {
               this.updateInjectionTypes(new Date(currentDate));
             }
           } else {
-            // First visit - only Initiation 1 is available
+            this.isFirstVisit = true;
             this.injectionTypes = [InjectionType.INITIATION_1];
+            this.updatePrepExperienceOptions();
           }
         },
         error: (error) => {
@@ -118,9 +122,33 @@ export class VisitFormComponent implements OnInit {
     });
   }
 
+  private updatePrepExperienceOptions(): void {
+    if (this.isFirstVisit || this.isSequenceReset) {
+      // Only show initiation options for first visit or sequence reset
+      this.prepExperienceStatusOptions = [
+        PrepExperienceStatus.NAIVE,
+        PrepExperienceStatus.TRANSITIONING_OP,
+        PrepExperienceStatus.TRANSITIONING_DVR
+      ];
+    } else {
+      // Show follow-up option for regular visits
+      this.prepExperienceStatusOptions = [
+        PrepExperienceStatus.CAB_LA_FOLLOWUP_VISIT
+      ];
+    }
+
+    // Reset the prepExperienceStatus if the current value is not in the new options
+    const currentValue = this.visitForm.get('prepExperienceStatus')?.value;
+    if (!this.prepExperienceStatusOptions.includes(currentValue)) {
+      this.visitForm.patchValue({ prepExperienceStatus: '' });
+    }
+  }
+
   private updateInjectionTypes(currentDate: Date): void {
     if (!this.lastVisitDate || !this.lastInjectionType) {
       this.injectionTypes = [InjectionType.INITIATION_1];
+      this.isSequenceReset = false;
+      this.updatePrepExperienceOptions();
       return;
     }
 
@@ -130,9 +158,13 @@ export class VisitFormComponent implements OnInit {
     if (this.shouldRestartSequence(daysSinceLastVisit, this.lastInjectionType)) {
       this.showRestartDialog(daysSinceLastVisit);
       this.injectionTypes = [InjectionType.INITIATION_1];
+      this.isSequenceReset = true;
+      this.updatePrepExperienceOptions();
       return;
     }
 
+    this.isSequenceReset = false;
+    
     // Determine next injection type
     if (this.lastInjectionType === InjectionType.INITIATION_1 && daysSinceLastVisit <= INITIATION_GAP_DAYS) {
       this.injectionTypes = [InjectionType.INITIATION_2];
@@ -143,7 +175,10 @@ export class VisitFormComponent implements OnInit {
       this.injectionTypes = [`Reinjection ${lastNumber + 1}`];
     } else {
       this.injectionTypes = [InjectionType.INITIATION_1];
+      this.isSequenceReset = true;
     }
+    
+    this.updatePrepExperienceOptions();
   }
 
   private shouldRestartSequence(daysSinceLastVisit: number, lastInjectionType: string): boolean {
